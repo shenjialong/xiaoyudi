@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <meta charset="utf-8">
+    <script src="js/angular.js"></script>
+    <script src="js/check.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <link href="skins/square/green.css" rel="stylesheet">
+    <link href="skins/square/red.css" rel="stylesheet">
+    <script src="js/jquery.icheck.js"></script>
+    <script src="js/uuid.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#tooltip1").mouseover(function() {
+                $(this).tooltip('show');
+
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            //alert(document.cookie);
+            if (document.cookie.length==0)
+            {
+                var Days=30;
+                var date=new Date();
+                date.setTime(date.getTime()+Days*24*60*60*1000);
+                //alert(date.toGMTString());
+                document.cookie="uuserId="+Math.uuid(15)+";expires="+date.toGMTString();
+                //alert(document.cookie);
+            }
+        });
+    </script>
+    <script>
+        /*$(document).ready(function(){
+            $('.checkyes input').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+                increaseArea: '20%', // optional
+                inheritClass: true
+            });
+            $('.checkno input').iCheck({
+                checkboxClass: 'icheckbox_square-red',
+                radioClass: 'iradio_square-red',
+                increaseArea: '20%',
+                inheritClass: true
+            });
+        });*/
+    </script>
+
+    <script type="text/javascript">
+        var xmlHttp=false;
+        var questionNum=23;
+
+        function createXMLHttpRequest() {
+            if (window.XMLHttpRequest)
+            {
+                xmlHttp=new XMLHttpRequest()
+            }else if (window.ActiveXObject)
+            {
+                xmlHttp=new ActiveXObject("Microsoft.XMLHTTP")
+            }
+        }
+        function httpReq() {
+
+            createXMLHttpRequest();
+            xmlHttp.onreadystatechange = getHeadInfo;
+            xmlHttp.open("GET", "http://raindrop.duapp.com/datacommit?answer="+getAnswer(), false);
+
+            xmlHttp.send(null);
+        }
+
+        function getAnswer(){
+            /*"{'question1':1,'question2':1,'question3':1,'question4':1,'question5':1,'question6':1," +
+             "'question7':1,'question8':1,'question9':1,'question10':1,'question11':1,'question12':1," +
+             "'question13':1,'question14':1,'question15':1,'question16':1,'question17':1,'question18':1," +
+             "'question19':1,'question20':1,'question21':1,'question22':1,'question23':1,'userid':'2322'," +
+             "'terminal':'pc'}";*/
+            var answer="{'userid':'"+getUUID()+"',";
+
+            var i,v;
+            for (i=1;i<=questionNum;i++)
+            {
+                if (tablearea["t"+i][0].checked){
+                    v="1";
+                }
+                else
+                    v="0";
+                answer+="'question"+i+"':'"+v+"',";
+            }
+            answer+="'terminal':'web'}";
+            alert(answer);
+            return answer;
+        }
+
+        function getUUID(){
+            var cookieSplit=document.cookie.split("; ");
+            var i;
+            for (i=0;i< cookieSplit.length;i++)
+            {
+                var cookieValue=cookieSplit[i].split("=");
+                if (cookieValue[0]=="uuserId")
+                {
+                    //alert(cookieValue[1]);
+                    return cookieValue[1];
+                }
+            }
+        }
+
+        function getHeadInfo() {
+            if(xmlHttp.readyState == 4) {
+                if (xmlHttp.status == 200)  // 请求结果已经成功返回
+                {
+                    alert(xmlHttp.response);
+                }
+                else  //页面不正常
+                {
+                    alert("未成功发送");
+                }
+            }
+        }
+    </script>
+
+    <title>M-CHAT孤独症筛查量表 &middot; 我们的网站名称</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+
+            /* Sticky footer styles
+            -------------------------------------------------- */
+
+        html,
+        body {
+            height: 100%;
+            /* The html and body elements cannot have any padding or margin. */
+        }
+
+            /* Wrapper for page content to push down footer */
+        #wrap {
+            min-height: 100%;
+            height: auto !important;
+            height: 100%;
+            /* Negative indent footer by it's height */
+            margin: 0 auto -60px;
+        }
+
+            /* Set the fixed height of the footer here */
+        #push,
+        #footer {
+            height: 60px;
+        }
+        #footer {
+            background-color: #f5f5f5;
+        }
+
+            /* Lastly, apply responsive CSS fixes as necessary */
+        @media (max-width: 767px) {
+            #footer {
+                margin-left: -20px;
+                margin-right: -20px;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+            /* Custom page CSS
+            -------------------------------------------------- */
+            /* Not required for template or sticky footer method. */
+
+        .container {
+            width: auto;
+            max-width: 680px;
+        }
+        .container .credit {
+            margin: 20px 0;
+        }
+
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.bootcss.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+</head>
+
+<body>
+
+<!-- Part 1: Wrap all page content here -->
+<div id="wrap">
+
+    <!-- Begin page content -->
+    <div class="container">
+        <div class="page-header">
+            <h1>M-CHAT修正的幼儿自闭症检查表</h1>
+        </div>
+
+             <p>该量表用于筛查16~30月龄儿童 ,共23项由家长填写。</p>
+
+        <div class="well well-small">　　请按照你孩子平常的状况回答下列问题。尽量每个问题都回答。
+            如果那种行为很少出现（例如：你看过一、两次），请以孩子没有做过来作答。
+        </div>
+
+        <form name="tablearea">
+            <div ng-controller="CheckCtrl">
+                <table class="table table-bordered table-hover">
+                    <tbody>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>问题</th>
+                        <th>是</th>
+                        <th>否</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="q in questions">
+                        <td>{{$index+1}}</td>
+                        <td>{{q.text}}</td>
+                        <td>
+                            <div class="checkyes">
+                                <input type="radio" name="t{{$index+1}}" value=true ng-model="q.answer"/>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="checkno">
+                                <input type="radio" name="t{{$index+1}}" value=false ng-model="q.answer"/>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="alert alert-error" ng-hide="(checkNull().length==0)">
+                    <strong>注意!&nbsp;</strong>请填写所有题目。第{{checkNull()}}题还没有填写。
+                </div>
+
+                <div class="row-fluid">
+
+                    <div class="span4 offset4">
+                        <!-- Button to trigger modal -->
+                        <button href="#myModal" class="btn btn-primary" data-toggle="modal" id="submitbtn"
+                                ng-disabled="(checkNull().length!=0)" onclick="httpReq()">
+                            <icon class="icon-check icon-white"></icon>&nbsp;查看结果</button>
+
+                        <!-- Modal -->
+                        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h3 id="myModalLabel">筛查结果</h3>
+                            </div>
+                            <div class="modal-body">
+                                <h5>
+                                    评定：<span class="label label-{{check().label}}">
+                                {{check().text}}</span>
+                                    <a href="#" data-toggle="tooltip" ng-model="count.count1"
+                                       data-placement="right" id="tooltip1"
+                                       title="共{{count.count2}}个项目为阳性，其中{{count.count1}}个关键项目为阳性。">
+                                        <i class="icon-question-sign"></i></a>
+
+                                    </br>
+                                </h5>
+                                <p>以下是这个评定的说明：……</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                                <button class="btn btn-primary">后续功能</button>
+                            </div>
+                        </div>
+
+                        <button class="btn" type="button" id="clear" onclick="location.reload()">
+                            <icon class="icon-info-sign"></icon>&nbsp;清空</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <p></p>
+    </div>
+
+    <div id="push"></div>
+</div>
+
+<div id="footer">
+    <div class="container">
+        <p class="muted credit">我们需要的页脚，比如：<a href="http://www.ourwebsite.xxx">小雨滴</a>团队制作。</p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol +
+            "hm.baidu.com/h.js%3F5558d3d2999340ce1ae6b83c590ae196' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+</html>
